@@ -15,6 +15,7 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_AUTOMOC ON)
 
 
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
