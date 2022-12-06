@@ -35,7 +35,8 @@ signals:
 			public:
 				nonceFinder();
 
-				void calculate(const QByteArray &Message, const quint32 Min_PoW_Score);
+				void calculate(const QByteArray &Message);
+				void set_Min_Pow_Score(quint32 Min_PoW_Score_m){Min_PoW_Score_=Min_PoW_Score_m;};
 				void handleResults(const quint64& nonce);
 
 signals:
@@ -45,10 +46,10 @@ signals:
 				quint64 thenonce;
 				std::vector<QThread> Threads;
 				std::vector<WorkerThread*> Workers;
+				quint32 Min_PoW_Score_;
 
 		};
 
-		quint64 get_nonce(const QByteArray &Message/*sin nonce*/, const quint32& Min_PoW_Score);
 
 	}
 }

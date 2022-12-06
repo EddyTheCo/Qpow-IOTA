@@ -41,7 +41,7 @@ using namespace qhashing;
 
 			}
 		}
-		nonceFinder::nonceFinder():thenonce(0), Threads(std::vector<QThread>(QThread::idealThreadCount()))
+		nonceFinder::nonceFinder():thenonce(0), Threads(std::vector<QThread>(QThread::idealThreadCount())),Min_PoW_Score_(1500)
 		{
 
 			const auto  Nthreads=Threads.size();
@@ -65,10 +65,10 @@ using namespace qhashing;
 
 		};
 
-		void nonceFinder::calculate(const QByteArray& Message, const quint32 Min_PoW_Score)
+		void nonceFinder::calculate(const QByteArray& Message)
 		{
 
-			const quint8 target_zeros=ceil(log(1.0*(Message.size()+8)*Min_PoW_Score)/LOG3);
+			const quint8 target_zeros=ceil(log(1.0*(Message.size()+8)*Min_PoW_Score_)/LOG3);
 			const auto pow_digest=QCryptographicHash::hash(Message, QCryptographicHash::Blake2b_256);
 			const auto curl_in=get_Trits_from_Bytes(pow_digest);
 			const auto treZeros=QByteArray(3,0);
