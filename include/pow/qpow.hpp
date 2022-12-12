@@ -6,27 +6,26 @@
 
 #include<QByteArray>
 #include<QDebug>
-#include <QThread>
+#include<thread>
+#include<mutex>
 namespace qiota{
 
 	namespace qpow {
 
-		class WorkerThread : public QObject
+        class WorkerThread :public QObject
 		{
-			Q_OBJECT
+            Q_OBJECT
 			public:
-				WorkerThread(const quint64& start_nonce_,
-						const quint64& step_,int id_):id(id_),
-				start_nonce(start_nonce_),step(step_),stop(false){};
-				public slots:
-					void send_stop(void){stop=true;};
-				void doWork(const quint64 target_zeros_, const QByteArray curl_in_, const QByteArray treZeros_);
-signals:
-				void found_nonce(const quint64 &s);
-			private:
-				int id;
+                WorkerThread(const quint64& step_):
+                step(step_),stop(false){};
+
+                void doWork(quint64 target_zeros_, QByteArray curl_in_, QByteArray treZeros_, quint64 start_block);
+        signals:
+                        void found_nonce(const quint64 &s);
+        private:
+                std::mutex mutex;
 				bool stop;
-				const quint64 start_nonce,step;
+                const quint64 step;
 		};
 
 		class nonceFinder : public QObject
@@ -37,15 +36,15 @@ signals:
 
 				void calculate(const QByteArray &Message);
 				void set_Min_Pow_Score(quint32 Min_PoW_Score_m){Min_PoW_Score_=Min_PoW_Score_m;};
-				void handleResults(const quint64& nonce);
+
 
 signals:
 				void nonce_found(const quint64 &s);
 				void operate(const quint64& target_zeros_, const QByteArray& curl_in_, const QByteArray& treZeros_);
 			private:
-				quint64 thenonce;
-				std::vector<QThread> Threads;
-				std::vector<WorkerThread*> Workers;
+                quint64 thenonce,NThreads;
+                std::vector<std::thread> Threads;
+                WorkerThread* worker;
 				quint32 Min_PoW_Score_;
 
 		};

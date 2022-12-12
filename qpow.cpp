@@ -11,10 +11,10 @@ namespace qiota{
 using namespace qencoding::qb1t6;
 using namespace qhashing;
 
-		void WorkerThread::doWork(const quint64 target_zeros, const QByteArray curl_in, const QByteArray treZeros) {
+        void WorkerThread::doWork(quint64 target_zeros,  QByteArray curl_in,  QByteArray treZeros, quint64 start_block) {
+            const quint64  start_nonce=start_block*step;
 
-
-			for(quint64 nonce=start_nonce;nonce<start_nonce+step;nonce++)
+            for(quint64 nonce=start_nonce;nonce<start_nonce+step;nonce++)
 			{
 				QByteArray curl_input(curl_in);
 				QByteArray nonceA;
@@ -27,41 +27,30 @@ using namespace qhashing;
 
 				auto curl_hash=curlP(curl_input);
 
+                if(stop)
+                {
+                    return;
+                }
 				if(curl_hash.get_TrailingZeros()>=target_zeros)
 				{
-
+                    mutex.lock();
+                    stop=true;
 					emit found_nonce(nonce);
+                    mutex.unlock();
 					return;
 				}
 
-				if(stop)
-				{
-					return;
-				}
+
 
 			}
+
 		}
-		nonceFinder::nonceFinder():thenonce(0), Threads(std::vector<QThread>(QThread::idealThreadCount())),Min_PoW_Score_(1500)
+        nonceFinder::nonceFinder():thenonce(0),NThreads(20),Min_PoW_Score_(1500)
 		{
-
-			const auto  Nthreads=Threads.size();
-
-			const quint64 shift=std::numeric_limits < qint64 >::max()/Nthreads;
-
-			for(quint64 i=0;i<Nthreads;i++)
-			{
-
-				auto worker = new WorkerThread(i*shift,shift,i);
-				worker->moveToThread(&Threads[i]);
-				connect(&Threads[i], &QThread::finished, worker, &QObject::deleteLater);
-				connect(this, &nonceFinder::operate, worker, &WorkerThread::doWork);
-				connect(worker, &WorkerThread::found_nonce, this, &nonceFinder::handleResults);
-				Threads[i].start();
-				Workers.push_back(worker);
-
-			}
-			QObject::connect(this, &nonceFinder::nonce_found, this, &QObject::deleteLater);
-
+            const quint64 shift=std::numeric_limits < qint64 >::max()/NThreads;
+            worker = new WorkerThread(shift);
+            connect(worker, &WorkerThread::found_nonce, this, &nonceFinder::nonce_found);
+            QObject::connect(this, &nonceFinder::nonce_found, worker, &QObject::deleteLater);
 
 		};
 
@@ -72,25 +61,17 @@ using namespace qhashing;
 			const auto pow_digest=QCryptographicHash::hash(Message, QCryptographicHash::Blake2b_256);
 			const auto curl_in=get_Trits_from_Bytes(pow_digest);
 			const auto treZeros=QByteArray(3,0);
-			emit operate(target_zeros,curl_in,treZeros);
+
+            const auto  Nthreads=20;
+            for(quint64 i=0;i<Nthreads;i++)
+            {
+                Threads.push_back(std::thread(&WorkerThread::doWork, worker, target_zeros,curl_in,treZeros,i));
+
+            }
 
 		}
 
-		void nonceFinder::handleResults(const quint64& nonce)
-		{
 
-			if(!thenonce)
-			{
-				for(auto i=0;i<Threads.size();i++)
-				{
-					Workers[i]->send_stop();
-					Threads[i].quit();
-					Threads[i].wait();
-				}
-				emit nonce_found(nonce);
-			}
-			thenonce=nonce;
-		}
 
 	}
 }
