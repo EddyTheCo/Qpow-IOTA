@@ -12,20 +12,20 @@ namespace qiota{
 
 	namespace qpow {
 
-        class WorkerThread :public QObject
+		class WorkerThread :public QObject
 		{
-            Q_OBJECT
+			Q_OBJECT
 			public:
-                WorkerThread(const quint64& step_):
-                step(step_),stop(false){};
+				WorkerThread(const quint64& step_):
+					step(step_),stop(false){};
 
-                void doWork(quint64 target_zeros_, QByteArray curl_in_, QByteArray treZeros_, quint64 start_block);
-        signals:
-                        void found_nonce(const quint64 &s);
-        private:
-                std::mutex mutex;
+				void doWork(quint64 target_zeros_, QByteArray curl_in_, QByteArray treZeros_, quint64 start_block);
+signals:
+				void found_nonce(const quint64 &s);
+			private:
+				std::mutex mutex;
 				bool stop;
-                const quint64 step;
+				const quint64 step;
 		};
 
 		class nonceFinder : public QObject
@@ -42,9 +42,9 @@ signals:
 				void nonce_found(const quint64 &s);
 				void operate(const quint64& target_zeros_, const QByteArray& curl_in_, const QByteArray& treZeros_);
 			private:
-                quint64 thenonce,NThreads;
-                std::vector<std::thread> Threads;
-                WorkerThread* worker;
+				quint64 thenonce,NThreads;
+				std::vector<std::thread> Threads;
+				WorkerThread* worker;
 				quint32 Min_PoW_Score_;
 
 		};
