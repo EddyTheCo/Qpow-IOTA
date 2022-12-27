@@ -16,31 +16,32 @@ namespace qiota{
 		{
 			Q_OBJECT
 			public:
-				WorkerThread(const quint64& step_):
-					step(step_),stop(false){};
+                WorkerThread(const QByteArray&curl_in_m, const quint8& target_zeros_m,const quint64& step_):
+                    step(step_),stop(false),curl_in_(curl_in_m.data(),curl_in_m.size()),target_zeros_(target_zeros_m){};
 
-				void doWork(quint64 target_zeros_, QByteArray curl_in_, QByteArray treZeros_, quint64 start_block);
+                void doWork(quint64 start_block);
 signals:
 				void found_nonce(const quint64 &s);
 			private:
 				std::mutex mutex;
 				bool stop;
-				const quint64 step;
+                const quint64 step;
+                const quint8 target_zeros_;
+                const QByteArray curl_in_;
 		};
 
 		class nonceFinder : public QObject
 		{
 			Q_OBJECT
 			public:
-				nonceFinder();
+                nonceFinder();
 
-				void calculate(const QByteArray &Message);
+                void calculate(const QByteArray &Message);
 				void set_Min_Pow_Score(quint32 Min_PoW_Score_m){Min_PoW_Score_=Min_PoW_Score_m;};
 
 
 signals:
 				void nonce_found(const quint64 &s);
-				void operate(const quint64& target_zeros_, const QByteArray& curl_in_, const QByteArray& treZeros_);
 			private:
 				quint64 thenonce,NThreads;
 				std::vector<std::thread> Threads;
