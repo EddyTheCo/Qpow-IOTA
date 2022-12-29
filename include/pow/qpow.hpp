@@ -20,6 +20,7 @@ namespace qiota{
                     step(step_),stop(false),curl_in_(curl_in_m.data(),curl_in_m.size()),target_zeros_(target_zeros_m){};
 
                 void doWork(quint64 start_block);
+                void send_stop(void);
 signals:
 				void found_nonce(const quint64 &s);
 			private:
@@ -42,6 +43,8 @@ signals:
 
 signals:
 				void nonce_found(const quint64 &s);
+                void nonce_not_found(void);
+
 			private:
 				quint64 thenonce,NThreads;
 				std::vector<std::thread> Threads;
