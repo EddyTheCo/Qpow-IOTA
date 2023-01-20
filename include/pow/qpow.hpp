@@ -6,8 +6,12 @@
 
 #include<QByteArray>
 #include<QDebug>
+#ifdef USE_THREADS
 #include<thread>
 #include<mutex>
+#endif
+
+
 namespace qiota{
 
 	namespace qpow {
@@ -24,7 +28,11 @@ namespace qiota{
 signals:
 				void found_nonce(const quint64 &s);
 			private:
-				std::mutex mutex;
+#ifdef USE_THREADS
+                std::mutex mutex;
+#endif
+
+
 				bool stop;
                 const quint64 step;
                 const quint8 target_zeros_;
@@ -47,7 +55,9 @@ signals:
 
 			private:
 				quint64 thenonce,NThreads;
-				std::vector<std::thread> Threads;
+#ifdef USE_THREADS
+                std::vector<std::thread> Threads;
+#endif
 				WorkerThread* worker;
 				quint32 Min_PoW_Score_;
 

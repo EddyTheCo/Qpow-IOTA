@@ -17,11 +17,16 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_AUTOMOC ON)
 
-
+option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
+
 
 find_package(Qt6 REQUIRED COMPONENTS Core)
 target_link_libraries(qpow PUBLIC  Qt6::Core )
+
+if(USE_THREADS)
+        target_compile_definitions(qpow PRIVATE USE_THREADS)
+endif(USE_THREADS)
 
 include(FetchContent)
 FetchContent_Declare(

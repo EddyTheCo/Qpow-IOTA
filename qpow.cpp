@@ -13,9 +13,14 @@ using namespace qencoding::qb1t6;
 using namespace qhashing;
 void WorkerThread::send_stop(void)
 {
+#ifdef USE_THREADS
     mutex.lock();
     stop=true;
-    mutex.unlock();
+    mutex.unlock(); std::vector<std::thread> Threads;
+#else
+    stop=true;
+#endif
+
 }
 void WorkerThread::doWork(quint64 start_block) {
     const quint64  start_nonce=start_block*step;
@@ -43,11 +48,17 @@ void WorkerThread::doWork(quint64 start_block) {
 
             if(!stop)
             {
-                mutex.lock();
+#ifdef USE_THREADS
+    mutex.lock();
+#endif
+
                 stop=true;
                 emit found_nonce(nonce);
             }
-            mutex.unlock();
+#ifdef USE_THREADS
+    mutex.unlock();
+#endif
+
             return;
         }
 
@@ -56,7 +67,14 @@ void WorkerThread::doWork(quint64 start_block) {
     }
 
 }
-nonceFinder::nonceFinder():thenonce(0),NThreads(8),Min_PoW_Score_(1500)
+nonceFinder::nonceFinder():thenonce(0),NThreads(
+#ifdef USE_THREADS
+8
+#else
+1
+#endif
+),
+Min_PoW_Score_(1500)
 {
 
 
@@ -78,15 +96,17 @@ void nonceFinder::calculate(const QByteArray& Message)
         worker->deleteLater();
         emit nonce_not_found();
     });
+#ifdef USE_THREADS
     for(quint64 i=0;i<NThreads;i++)
     {
         Threads.push_back(std::thread(&WorkerThread::doWork, worker, i));
         Threads.back().detach();
     }
+#else
+    worker->doWork(0);
+#endif
 
 }
-
-
 
 }
 }
