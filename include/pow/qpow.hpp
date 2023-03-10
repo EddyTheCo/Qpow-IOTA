@@ -6,6 +6,7 @@
 
 #include<QByteArray>
 #include<QDebug>
+#include<QObject>
 #ifdef USE_THREADS
 #include<thread>
 #include<mutex>
