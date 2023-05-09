@@ -23,13 +23,14 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_AUTOMOC ON)
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
 include(cmake/FindQt.cmake)
+qt_standard_project_setup()
+
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 
 if(USE_THREADS)
