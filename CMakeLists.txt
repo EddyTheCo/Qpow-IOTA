@@ -29,8 +29,7 @@ add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
 include(cmake/FindQt.cmake)
-qt_standard_project_setup()
-
+set(CMAKE_AUTOMOC ON)
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 
 if(USE_THREADS)
