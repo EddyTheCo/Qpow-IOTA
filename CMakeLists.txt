@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 include(local_conf.cmake OPTIONAL)
-project(QtIotaPow VERSION 0.1 DESCRIPTION "QT   library for doing Pow on IOTA network " LANGUAGES CXX)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+include(cmake/VersionFromGit.cmake)
+
+version_from_git(
+	LOG       OFF
+  TIMESTAMP "%Y%m%d%H%M%S"
+)
+
+project(QtIotaPow VERSION ${VERSION} DESCRIPTION "QT library for doing Pow on IOTA" LANGUAGES CXX)
 
 
 set(default_build_type "Release")
@@ -21,7 +29,7 @@ option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
-find_package(Qt6 REQUIRED COMPONENTS Core)
+include(cmake/FindQt.cmake)
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 
 if(USE_THREADS)
@@ -29,22 +37,26 @@ if(USE_THREADS)
 endif(USE_THREADS)
 
 include(FetchContent)
+if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
+include(FetchContent)
 FetchContent_Declare(
         qb1t6
-        GIT_REPOSITORY git@github.com:EddyTheCo/Qb1t6.git
-        GIT_TAG main
+        GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
+        GIT_TAG v0.0.1
         )
 FetchContent_MakeAvailable(qb1t6)
-
-target_link_libraries(qpow PRIVATE  qb1t6 )
+endif(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
+if(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
+include(FetchContent)
 FetchContent_Declare(
         qcurlp81
-        GIT_REPOSITORY git@github.com:EddyTheCo/Qcurlp81.git
-        GIT_TAG main
+        GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
+        GIT_TAG v0.0.1
         )
 FetchContent_MakeAvailable(qcurlp81)
+endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 
-target_link_libraries(qpow PRIVATE  qcurlp81 )
+target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 )
 
 target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	"$<INSTALL_INTERFACE:include>")
@@ -66,8 +78,8 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 	)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/qpowConfigVersion.cmake"
-	VERSION "0.1.1.0"
-	COMPATIBILITY AnyNewerVersion
+	VERSION ${VERSION}
+	COMPATIBILITY SameMajorVersion
 	)
 install(FILES
 	${CMAKE_CURRENT_BINARY_DIR}/qpowConfig.cmake
@@ -77,4 +89,12 @@ install(FILES
 export(EXPORT qpowTargets
 	FILE "${CMAKE_CURRENT_BINARY_DIR}/qpowTargets.cmake"
 	)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+    set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${SEMVER}-${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_CXX_COMPILER_ID}")
+    if(NOT BUILD_SHARED_LIBS)	    
+    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-static")
+    endif(NOT BUILD_SHARED_LIBS)		    
+    include(CPack)
+endif()
 
