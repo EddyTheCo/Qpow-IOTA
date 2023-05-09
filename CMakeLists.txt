@@ -29,7 +29,6 @@ add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
 include(cmake/FindQt.cmake)
-set(CMAKE_AUTOMOC ON)
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 
 if(USE_THREADS)
@@ -56,6 +55,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 
+set(CMAKE_AUTOMOC ON)
 target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 )
 
 target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
