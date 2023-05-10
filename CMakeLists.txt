@@ -26,6 +26,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(cmake/FindQt.cmake)
+set(CMAKE_AUTOMOC ON)
+
+option(USE_THREADS "On or off" OFF)
+add_library(qpow include/pow/qpow.hpp qpow.cpp)
+
 include(FetchContent)
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
 
@@ -45,12 +51,6 @@ FetchContent_Declare(
         )
 FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-
-include(cmake/FindQt.cmake)
-set(CMAKE_AUTOMOC ON)
-
-option(USE_THREADS "On or off" OFF)
-add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
 
