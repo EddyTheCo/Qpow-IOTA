@@ -23,21 +23,12 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-option(USE_THREADS "On or off" OFF)
-add_library(qpow include/pow/qpow.hpp qpow.cpp)
-
-
-include(cmake/FindQt.cmake)
-target_link_libraries(qpow PUBLIC  Qt6::Core )
-
-if(USE_THREADS)
-        target_compile_definitions(qpow PRIVATE USE_THREADS)
-endif(USE_THREADS)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
-include(FetchContent)
+
 FetchContent_Declare(
         qb1t6
         GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
@@ -46,7 +37,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(qb1t6)
 endif(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
 if(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-include(FetchContent)
+
 FetchContent_Declare(
         qcurlp81
         GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
@@ -55,7 +46,21 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 
-set(CMAKE_AUTOMOC ON)
+include(cmake/FindQt.cmake)
+qt_standard_project_setup()
+
+option(USE_THREADS "On or off" OFF)
+add_library(qpow include/pow/qpow.hpp qpow.cpp)
+
+
+
+target_link_libraries(qpow PUBLIC  Qt6::Core )
+
+if(USE_THREADS)
+        target_compile_definitions(qpow PRIVATE USE_THREADS)
+endif(USE_THREADS)
+
+
 target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 )
 
 target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
