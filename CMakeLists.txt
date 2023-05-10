@@ -47,7 +47,7 @@ FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 
 include(cmake/FindQt.cmake)
-qt6_standard_project_setup()
+set(CMAKE_AUTOMOC ON)
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
