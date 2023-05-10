@@ -54,7 +54,7 @@ jobs:
 
       - name: Build
         working-directory: ${{ runner.temp }}/build
-        run: cmake --build .   
+        run: cmake --build .  -- -v 
 
       - name: Test
         working-directory: ${{ runner.temp }}/build
