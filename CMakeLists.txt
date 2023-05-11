@@ -51,7 +51,6 @@ set(QT_SUPERBUILD OFF)
 set(ANDROID OFF)
 set(WASM OFF)
 #set(QT_WILL_BUILD_TOOLS OFF)
-
 include(FetchContent)
 FetchContent_Declare(
         qtbase
@@ -63,6 +62,9 @@ if(NOT qtbase_POPULATED)
   FetchContent_Populate(qtbase)
   add_subdirectory(${qtbase_SOURCE_DIR} ${qtbase_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
+set(QT_VERSION_MAJOR  6)
+set(QT_VERSION_MINOR  5)
+set(QT_VERSION_PATCH  0)
 endif(NOT Qt6_FOUND AND NOT TARGET Qt6::Core)
 set(CMAKE_AUTOMOC ON)
 
