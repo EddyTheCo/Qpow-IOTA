@@ -31,10 +31,11 @@ FetchContent_Declare(
         GIT_REPOSITORY git://code.qt.io/qt/qtbase.git
         GIT_TAG 6.5.0 
         )
-FetchContent_GetProperties(qtbase)
-if(NOT qtbase_POPULATED)
-  FetchContent_Populate(qtbase)
-  add_subdirectory(${qtbase_SOURCE_DIR} ${qtbase_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+FetchContent_MakeAvailable(qtbase)
+#FetchContent_GetProperties(qtbase)
+#if(NOT qtbase_POPULATED)
+#  FetchContent_Populate(qtbase)
+#  add_subdirectory(${qtbase_SOURCE_DIR} ${qtbase_BINARY_DIR} EXCLUDE_FROM_ALL)
+#endif()
 endif(NOT Qt6_FOUND AND NOT TARGET Qt6::Core)
 
