@@ -64,7 +64,7 @@ target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 autogen)
 target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	"$<INSTALL_INTERFACE:include>")
 
-install(TARGETS qpow EXPORT qpowTargets DESTINATION lib)
+install(TARGETS qpow autogen EXPORT qpowTargets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)
 
 install(EXPORT qpowTargets
