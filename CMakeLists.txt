@@ -28,7 +28,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(cmake/FindQt.cmake)
 
-set(CMAKE_GLOBAL_AUTOGEN_TARGET ON)
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 set_property(TARGET qpow PROPERTY AUTOMOC ON)
@@ -59,12 +58,12 @@ if(USE_THREADS)
 endif(USE_THREADS)
 
 
-target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 autogen)
+target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 qpow_autogen)
 
 target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	"$<INSTALL_INTERFACE:include>")
 
-install(TARGETS qpow autogen EXPORT qpowTargets DESTINATION lib)
+install(TARGETS qpow EXPORT qpowTargets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)
 
 install(EXPORT qpowTargets
