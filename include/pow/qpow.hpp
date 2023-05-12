@@ -11,13 +11,13 @@
 #include<thread>
 #include<mutex>
 #endif
-
+#include <QtCore/QtGlobal>
 
 namespace qiota{
 
 namespace qpow {
 
-class WorkerThread :public QObject
+class Q_DECL_EXPORT WorkerThread :public QObject
 {
     Q_OBJECT
 public:
@@ -41,7 +41,7 @@ private:
     const QByteArray curl_in_;
 };
 
-class nonceFinder : public QObject
+class Q_DECL_EXPORT nonceFinder : public QObject
 {
     Q_OBJECT
 public:
