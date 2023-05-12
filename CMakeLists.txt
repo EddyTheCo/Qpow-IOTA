@@ -58,7 +58,7 @@ if(USE_THREADS)
 endif(USE_THREADS)
 
 
-target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 qpow_autogen)
+target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 )
 
 target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	"$<INSTALL_INTERFACE:include>")
