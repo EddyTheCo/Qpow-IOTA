@@ -26,54 +26,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 QUIET COMPONENTS Core)
-
-
-if(NOT Qt6_FOUND AND NOT TARGET Qt6::Core)
-
-set(QT_BUILD_TESTS OFF)
-set(QT_BUILD_EXAMPLES OFF)
-set(QT_FEATURE_sql OFF)
-set(QT_FEATURE_network OFF)
-set(QT_FEATURE_gui OFF)
-#set(QT_FEATURE_regularexpression OFF)
-set(QT_FEATURE_concurrent OFF)
-set(QT_FEATURE_xml OFF)
-set(QT_FEATURE_dbus OFF)
-set(QT_FEATURE_opengl OFF)
-set(QT_FEATURE_widgets OFF)
-set(QT_FEATURE_testlib OFF)
-set(QT_FEATURE_printsupport OFF)
-#set(QT_FEATURE_commandlineparser OFF)
-set(QT_FEATURE_androiddeployqt OFF)
-set(QT_FEATURE_qmake OFF)
-set(QT_SUPERBUILD OFF)
-set(ANDROID OFF)
-set(WASM OFF)
-#set(QT_WILL_BUILD_TOOLS OFF)
-include(FetchContent)
-FetchContent_Declare(
-        qtbase
-        GIT_REPOSITORY git://code.qt.io/qt/qtbase.git
-        GIT_TAG 6.5.0 
-        )
-FetchContent_GetProperties(qtbase)
-if(NOT qtbase_POPULATED)
-  FetchContent_Populate(qtbase)
-  add_subdirectory(${qtbase_SOURCE_DIR} ${qtbase_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-set(QT_VERSION_MAJOR  6)
-set(QT_VERSION_MINOR  5)
-set(QT_VERSION_PATCH  0)
-endif(NOT Qt6_FOUND AND NOT TARGET Qt6::Core)
+include(cmake/FindQt.cmake)
 set(CMAKE_AUTOMOC ON)
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
+find_package(qb1t6 0 QUIET )
 include(FetchContent)
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
-
 FetchContent_Declare(
         qb1t6
         GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
@@ -81,8 +42,8 @@ FetchContent_Declare(
         )
 FetchContent_MakeAvailable(qb1t6)
 endif(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
+find_package(qcurlp81 0 QUIET )
 if(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-
 FetchContent_Declare(
         qcurlp81
         GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
@@ -90,8 +51,6 @@ FetchContent_Declare(
         )
 FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-
-
 
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 
