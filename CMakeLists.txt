@@ -27,11 +27,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(cmake/FindQt.cmake)
-set(CMAKE_AUTOMOC ON)
+#set(Qt6Core_VERSION_MAJOR 6)
+#set(Qt6Core_VERSION_MINOR 5)
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
-
+set_property(TARGET qpow PROPERTY AUTOMOC ON)
 find_package(qb1t6 0 QUIET )
 include(FetchContent)
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
