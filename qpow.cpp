@@ -111,4 +111,3 @@ void nonceFinder::calculate(const QByteArray& Message)
 }
 }
 
-#include "qpow.moc"
