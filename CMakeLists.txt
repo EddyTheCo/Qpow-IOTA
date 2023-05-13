@@ -26,15 +26,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(cmake/FindQt.cmake)
-set(CMAKE_AUTOMOC ON)
+find_package(Qt6 REQUIRED COMPONENTS Core)
+qt_standard_project_setup()
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
-
+set_target_properties(qpow PROPERTIES AUTOMOC ON)
+find_package(qb1t6 0 QUIET )
 include(FetchContent)
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
-
 FetchContent_Declare(
         qb1t6
         GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
@@ -42,8 +42,8 @@ FetchContent_Declare(
         )
 FetchContent_MakeAvailable(qb1t6)
 endif(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
+find_package(qcurlp81 0 QUIET )
 if(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-
 FetchContent_Declare(
         qcurlp81
         GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
@@ -51,8 +51,6 @@ FetchContent_Declare(
         )
 FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-
-
 
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 

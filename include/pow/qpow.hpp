@@ -12,7 +12,6 @@
 #include<mutex>
 #endif
 
-
 namespace qiota{
 
 namespace qpow {
