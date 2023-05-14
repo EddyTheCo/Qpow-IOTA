@@ -51,7 +51,6 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           version: '6.5.0'
-          archives: 'qtbase'
 
       - name: Create build directory
         run:  cmake -E make_directory ${{runner.temp}}/build
