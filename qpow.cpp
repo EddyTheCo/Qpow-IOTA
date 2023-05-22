@@ -51,13 +51,13 @@ void WorkerThread::doWork(const quint64& start_block) {
 #ifdef USE_THREADS
     mutex.lock();
 #endif
-
                 stop=true;
                 emit found_nonce(nonce);
-            }
 #ifdef USE_THREADS
     mutex.unlock();
 #endif
+            }
+
 
             return;
         }
@@ -69,7 +69,7 @@ void WorkerThread::doWork(const quint64& start_block) {
 }
 nonceFinder::nonceFinder():thenonce(0),worker(nullptr),NThreads(
 #ifdef USE_THREADS
-8
+(std::thread::hardware_concurrency())?std::thread::hardware_concurrency():16
 #else
 1
 #endif
@@ -88,7 +88,6 @@ void nonceFinder::calculate(const QByteArray& Message)
     qDebug()<<"target_zeros:"<<target_zeros;
     const auto pow_digest=QCryptographicHash::hash(Message, QCryptographicHash::Blake2b_256);
     const auto curl_in=get_Trits_from_Bytes(pow_digest);
-
     worker = new WorkerThread(curl_in,target_zeros,shift,this);
     connect(worker, &WorkerThread::found_nonce, this, [=](const quint64 &s){emit nonce_found(s);worker->deleteLater();});
     QTimer::singleShot(30000, this, [this](){
@@ -99,8 +98,8 @@ void nonceFinder::calculate(const QByteArray& Message)
 #ifdef USE_THREADS
     for(quint64 i=0;i<NThreads;i++)
     {
-        Threads.push_back(std::thread(&WorkerThread::doWork, worker, i));
-        Threads.back().detach();
+        auto var= std::thread(&WorkerThread::doWork, worker, i);
+        var.detach();
     }
 #else
     worker->doWork(0);

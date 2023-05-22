@@ -56,9 +56,6 @@ signals:
 
 private:
     quint64 thenonce,NThreads;
-#ifdef USE_THREADS
-    std::vector<std::thread> Threads;
-#endif
     WorkerThread* worker;
     quint32 Min_PoW_Score_;
 
