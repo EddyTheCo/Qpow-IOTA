@@ -5,6 +5,7 @@ on:
     tags:
       - 'v*'
   pull_request:
+    types: [opened,reopened]
     branches: [develop]
   pull_request_target:
     types: [closed]
