@@ -2,14 +2,13 @@ name: push-build-release
 run-name: ${{ github.actor }} pushed 
 on: 
   push:
-    branches: [develop,testing]
     tags:
       - 'v*'
   pull_request:
     types: [opened]
     branches: [develop]
-  pull_request_review:
-    types: [submitted]
+  pull_request_target:
+    types: [closed]
     branches: [main]  
 jobs:
   build_test_package:
@@ -124,8 +123,7 @@ jobs:
   deploy_page:
     needs: build_test_package
     runs-on: ubuntu-latest
-    if: github.event.review.state == 'approved'
-
+    if: github.event.pull_request.merged == true
     permissions:
       pages: write      
       id-token: write  
