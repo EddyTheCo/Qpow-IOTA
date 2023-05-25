@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 include(local_conf.cmake OPTIONAL)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-include(cmake/VersionFromGit.cmake)
+
+include(FetchContent)
+FetchContent_Declare(
+	ccommon
+	GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
+	GIT_TAG main
+	)
+FetchContent_MakeAvailable(ccommon)
 
 version_from_git(
 	LOG       OFF
-  TIMESTAMP "%Y%m%d%H%M%S"
-)
+	TIMESTAMP "%Y%m%d%H%M%S"
+	)
 
 project(QtIotaPow VERSION ${VERSION} DESCRIPTION "QT library for doing Pow on IOTA" LANGUAGES CXX)
 
@@ -33,29 +40,28 @@ option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 set_target_properties(qpow PROPERTIES AUTOMOC ON)
 find_package(qb1t6 0 QUIET )
-include(FetchContent)
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
-FetchContent_Declare(
-        qb1t6
-        GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
-        GIT_TAG v0.0.1
-        )
-FetchContent_MakeAvailable(qb1t6)
+	FetchContent_Declare(
+		qb1t6
+		GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
+		GIT_TAG v0.0.1
+		)
+	FetchContent_MakeAvailable(qb1t6)
 endif(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
 find_package(qcurlp81 0 QUIET )
 if(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
-FetchContent_Declare(
-        qcurlp81
-        GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
-        GIT_TAG v0.0.1
-        )
-FetchContent_MakeAvailable(qcurlp81)
+	FetchContent_Declare(
+		qcurlp81
+		GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
+		GIT_TAG v0.0.1
+		)
+	FetchContent_MakeAvailable(qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 
 target_link_libraries(qpow PUBLIC  Qt6::Core )
 
 if(USE_THREADS)
-        target_compile_definitions(qpow PRIVATE USE_THREADS)
+	target_compile_definitions(qpow PRIVATE USE_THREADS)
 endif(USE_THREADS)
 
 
@@ -93,11 +99,15 @@ export(EXPORT qpowTargets
 	FILE "${CMAKE_CURRENT_BINARY_DIR}/qpowTargets.cmake"
 	)
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    include(CTest)
-    set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${SEMVER}-${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_CXX_COMPILER_ID}")
-    if(NOT BUILD_SHARED_LIBS)	    
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-static")
-    endif(NOT BUILD_SHARED_LIBS)		    
-    include(CPack)
+	include(CTest)
+	set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${SEMVER}-${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_CXX_COMPILER_ID}")
+	if(NOT BUILD_SHARED_LIBS)
+		set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-static")
+	endif(NOT BUILD_SHARED_LIBS)
+	include(CPack)
 endif()
 
+if(BUILD_DOCS)
+	get_target_property(build_docs cmake_build_docs SOURCES)
+	include(${build_docs})
+endif()
