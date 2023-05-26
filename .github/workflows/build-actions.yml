@@ -103,8 +103,8 @@ jobs:
           path: ${{ github.workspace }}/doc/html/ 
 
   release:
-    needs: build_test_package
     if: startsWith(github.ref, 'refs/tags/v')
+    needs: build_test_package
     runs-on: ubuntu-latest
 
     permissions:
@@ -126,9 +126,9 @@ jobs:
           files: ./artifacts/*/*
 
   deploy_page:
+    if: matrix.build_docs
     needs: build_test_package
     runs-on: ubuntu-latest
-    if: ${{ matrix.build_docs }}
     permissions:
       pages: write      
       id-token: write  
