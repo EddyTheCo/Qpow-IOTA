@@ -21,13 +21,13 @@ jobs:
           - ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) }}
         exclude:
           - os: windows-latest
-            build_docs: false
+            build_docs: true
           - os: macos-latest
-            build_docs: false
+            build_docs: true
           - sharedLib:  on 
-            build_docs: false
+            build_docs: true
           - useThread:  on 
-            build_docs: false
+            build_docs: true
     runs-on: ${{ matrix.os }}
     continue-on-error: true  
 
@@ -98,7 +98,7 @@ jobs:
           path: ${{ runner.temp }}/build/package/* 
       
       - uses: actions/upload-pages-artifact@v1.0.8
-        if: startsWith(matrix.build_docs,'on')
+        if: ${{ matrix.build_docs }}
         with:
           path: ${{ github.workspace }}/doc/html/ 
 
@@ -128,7 +128,7 @@ jobs:
   deploy_page:
     needs: build_test_package
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    if: ${{ matrix.build_docs }}
     permissions:
       pages: write      
       id-token: write  
