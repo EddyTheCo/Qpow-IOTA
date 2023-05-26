@@ -20,7 +20,7 @@ jobs:
         build_docs: 
           - ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) }}
         exclude:
-          - build_docs: true
+          - os: windows-latest
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true  
