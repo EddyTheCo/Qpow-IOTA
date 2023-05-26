@@ -20,13 +20,12 @@ jobs:
         build_docs: 
           - ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) }}
         exclude:
-          - build_docs: true
-            os: [macos-latest,windows-latest]
-          - build_docs: true
-            sharedLib: [on]  
-          - build_docs: true
-            useThread: [on]  
-
+          - os: [macos-latest,windows-latest]
+            build_docs: true
+          - sharedLib: [on] 
+            build_docs: true
+          - useThread: [on]  
+            build_docs: true
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true  
