@@ -1,5 +1,5 @@
 name: push-build-release
-run-name: ${{ github.actor }} ${{github.event_name}} to ${{ github.base_ref }} 
+run-name: ${{ github.actor }} ${{ github.event_name }} to ${{ github.base_ref }} 
 on: 
   push:
     tags:
@@ -18,7 +18,7 @@ jobs:
         sharedLib: [on,off]
         useThread: [on,off]
         build_docs: 
-          - ${{ github.event.pull_request.merged == true && startsWith(github.base_ref, 'refs/heads/main') }}
+          - ${{ github.event.pull_request.merged == true && startsWith(github.base_ref, 'main') }}
         exclude:
           - build_docs: true
             os: [macos-latest,windows-latest]
