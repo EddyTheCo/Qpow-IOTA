@@ -20,13 +20,14 @@ jobs:
         build_docs: 
           - ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) }}
         exclude:
-          - os: [macos-latest,windows-latest]
+          - os: windows-latest
             build_docs: true
-          - sharedLib: [on] 
+          - os: macos-latest
             build_docs: true
-          - useThread: [on]  
+          - sharedLib:  on 
             build_docs: true
-
+          - useThread:  on 
+            build_docs: true
     runs-on: ${{ matrix.os }}
     continue-on-error: true  
 
@@ -97,13 +98,13 @@ jobs:
           path: ${{ runner.temp }}/build/package/* 
       
       - uses: actions/upload-pages-artifact@v1.0.8
-        if: startsWith(matrix.build_docs,'on')
+        if: ${{ matrix.build_docs }}
         with:
           path: ${{ github.workspace }}/doc/html/ 
 
   release:
-    needs: build_test_package
     if: startsWith(github.ref, 'refs/tags/v')
+    needs: build_test_package
     runs-on: ubuntu-latest
 
     permissions:
@@ -125,9 +126,9 @@ jobs:
           files: ./artifacts/*/*
 
   deploy_page:
+    if: ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) }}
     needs: build_test_package
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     permissions:
       pages: write      
       id-token: write  
