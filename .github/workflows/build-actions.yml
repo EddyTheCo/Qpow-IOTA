@@ -21,7 +21,7 @@ jobs:
           - ${{ (github.event.pull_request.merged == true) && (startsWith(github.base_ref, 'main')) }}
         exclude:
           - os: windows-latest
-            build_docs: false
+            build_docs: true
     runs-on: ${{ matrix.os }}
     continue-on-error: true  
 
