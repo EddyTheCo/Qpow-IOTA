@@ -98,7 +98,7 @@ jobs:
           path: ${{ runner.temp }}/build/package/* 
       
       - uses: actions/upload-pages-artifact@v1.0.8
-        if: ${{ matrix.build_docs }}
+        if: matrix.build_docs
         with:
           path: ${{ github.workspace }}/doc/html/ 
 
