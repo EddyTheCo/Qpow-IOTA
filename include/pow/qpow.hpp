@@ -10,13 +10,15 @@
 #include<thread>
 #include<mutex>
 #endif
+#include <QtCore/QtGlobal>
+
 
 namespace qiota{
 
 	namespace qpow {
 
 
-		class nonceFinder : public QObject
+		class Q_DECL_EXPORT nonceFinder : public QObject
 		{
 			Q_OBJECT
 			public:
