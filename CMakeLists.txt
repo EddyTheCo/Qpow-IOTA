@@ -43,9 +43,9 @@ add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 if(BUILD_SHARED_LIBS)
 	if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-		target_compile_definitions(qpow PUBLIC QEXPORT_IMPORT=Q_DECL_EXPORT)
+		target_compile_definitions(qpow PRIVATE QEXPORT_IMPORT=Q_DECL_EXPORT)
 	else()
-		target_compile_definitions(qpow PUBLIC QEXPORT_IMPORT=Q_DECL_IMPORT)
+		target_compile_definitions(qpow PRIVATE QEXPORT_IMPORT=Q_DECL_EXPORT)
 	endif()
 endif(BUILD_SHARED_LIBS)
 
