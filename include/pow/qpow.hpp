@@ -12,12 +12,9 @@
 #endif
 #include <QtCore/QtGlobal>
 
-#if defined(SHAREDLIB_LIBRARY)
-#  define SHAREDLIB_EXPORT Q_DECL_EXPORT
-#else
-#  define SHAREDLIB_EXPORT Q_DECL_IMPORT
+#ifndef QEXPORT_IMPORT
+#define QEXPORT_IMPORT
 #endif
-
 namespace qiota{
 
 	namespace qpow {

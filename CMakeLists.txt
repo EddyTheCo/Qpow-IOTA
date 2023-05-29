@@ -47,8 +47,6 @@ if(BUILD_SHARED_LIBS)
 	else()
 		target_compile_definitions(qpow PUBLIC QEXPORT_IMPORT=Q_DECL_IMPORT)
 	endif()
-else()
-	target_compile_definitions(qpow PUBLIC QEXPORT_IMPORT)
 endif(BUILD_SHARED_LIBS)
 
 find_package(qb1t6 0 QUIET )
