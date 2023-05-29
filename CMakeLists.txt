@@ -42,11 +42,8 @@ option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 if(BUILD_SHARED_LIBS)
-	if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-		target_compile_definitions(qpow PRIVATE QEXPORT_IMPORT=Q_DECL_EXPORT)
-	else()
-		target_compile_definitions(qpow PRIVATE QEXPORT_IMPORT=Q_DECL_EXPORT)
-	endif()
+	$target_compile_definitions(qpow PRIVATE "$<BUILD_INTERFACE:QEXPORT_IMPORT=Q_DECL_EXPORT>"
+         "$<INSTALL_INTERFACE:QEXPORT_IMPORT=Q_DECL_IMPORT>")
 endif(BUILD_SHARED_LIBS)
 
 find_package(qb1t6 0 QUIET )
