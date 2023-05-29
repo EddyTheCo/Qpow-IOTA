@@ -42,7 +42,7 @@ option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 if(BUILD_SHARED_LIBS)
-	$target_compile_definitions(qpow PRIVATE "$<BUILD_INTERFACE:QEXPORT_IMPORT=Q_DECL_EXPORT>"
+	target_compile_definitions(qpow PRIVATE "$<BUILD_INTERFACE:QEXPORT_IMPORT=Q_DECL_EXPORT>"
          "$<INSTALL_INTERFACE:QEXPORT_IMPORT=Q_DECL_IMPORT>")
 endif(BUILD_SHARED_LIBS)
 
