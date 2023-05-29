@@ -5,7 +5,6 @@
  **/
 
 #include<QByteArray>
-#include<QDebug>
 #include<QObject>
 #ifdef USE_THREADS
 #include<thread>
@@ -14,29 +13,29 @@
 
 namespace qiota{
 
-namespace qpow {
+	namespace qpow {
 
 
-class nonceFinder : public QObject
-{
-    Q_OBJECT
-public:
-    nonceFinder();
+		class nonceFinder : public QObject
+		{
+			Q_OBJECT
+			public:
+				nonceFinder();
 
-    void calculate(const QByteArray &Message);
-    void set_Min_Pow_Score(quint32 Min_PoW_Score_m){Min_PoW_Score_=Min_PoW_Score_m;};
+				void calculate(const QByteArray &Message);
+				void set_Min_Pow_Score(quint32 Min_PoW_Score_m){Min_PoW_Score_=Min_PoW_Score_m;};
 
 
 signals:
-    void nonce_found(quint64 s);
-    void nonce_not_found(void);
+				void nonce_found(quint64 s);
+				void nonce_not_found(void);
 
-private:
-    quint64 thenonce,NThreads;
-    quint32 Min_PoW_Score_;
+			private:
+				quint64 thenonce,NThreads;
+				quint32 Min_PoW_Score_;
 
-};
+		};
 
 
-}
+	}
 }
