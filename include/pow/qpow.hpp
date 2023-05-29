@@ -12,13 +12,18 @@
 #endif
 #include <QtCore/QtGlobal>
 
+#if defined(SHAREDLIB_LIBRARY)
+#  define SHAREDLIB_EXPORT Q_DECL_EXPORT
+#else
+#  define SHAREDLIB_EXPORT Q_DECL_IMPORT
+#endif
 
 namespace qiota{
 
 	namespace qpow {
 
 
-		class Q_DECL_EXPORT nonceFinder : public QObject
+		class SHAREDLIB_EXPORT nonceFinder : public QObject
 		{
 			Q_OBJECT
 			public:
