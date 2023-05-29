@@ -23,7 +23,7 @@ namespace qiota{
 	namespace qpow {
 
 
-		class SHAREDLIB_EXPORT nonceFinder : public QObject
+		class QEXPORT_IMPORT nonceFinder : public QObject
 		{
 			Q_OBJECT
 			public:

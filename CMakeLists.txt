@@ -40,9 +40,15 @@ endif(Qt6_FOUND)
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_SHARED_LIBS)
-	target_compile_definitions(qpow PRIVATE SHAREDLIB_LIBRARY)
-endif(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_SHARED_LIBS)
+
+if(BUILD_SHARED_LIBS)
+	if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+		target_compile_definitions(qpow PUBLIC QEXPORT_IMPORT=Q_DECL_EXPORT)
+	else()
+		target_compile_definitions(qpow PUBLIC QEXPORT_IMPORT=Q_DECL_IMPORT)
+	endif()
+endif(BUILD_SHARED_LIBS)
+
 find_package(qb1t6 0 QUIET )
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
 	FetchContent_Declare(
