@@ -39,6 +39,7 @@ if (Qt6_FOUND)
 endif(Qt6_FOUND)
 
 option(USE_THREADS "On or off" OFF)
+message(STATUS "Use multithread: '${USE_THREADS}' ")
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
