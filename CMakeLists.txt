@@ -39,6 +39,7 @@ if (Qt6_FOUND)
 endif(Qt6_FOUND)
 
 option(USE_THREADS "On or off" OFF)
+message(STATUS "Use multithread: '${USE_THREADS}' ")
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 
@@ -109,6 +110,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	if(NOT BUILD_SHARED_LIBS)
 		set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-static")
 	endif(NOT BUILD_SHARED_LIBS)
+	if(USE_THREADS)
+		set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-MThread")
+	endif(USE_THREADS)
 	include(CPack)
 endif()
 
