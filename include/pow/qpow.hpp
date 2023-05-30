@@ -10,7 +10,6 @@
 #include<thread>
 #include<mutex>
 #endif
-
 namespace qiota{
 
 	namespace qpow {
@@ -26,7 +25,7 @@ namespace qiota{
 				void set_Min_Pow_Score(quint32 Min_PoW_Score_m){Min_PoW_Score_=Min_PoW_Score_m;};
 
 
-signals:
+			signals:
 				void nonce_found(quint64 s);
 				void nonce_not_found(void);
 

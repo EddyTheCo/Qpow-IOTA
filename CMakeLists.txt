@@ -35,11 +35,13 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 find_package(Qt6 COMPONENTS Core)
 if (Qt6_FOUND)
-qt_standard_project_setup()
+	qt_standard_project_setup()
 endif(Qt6_FOUND)
 
 option(USE_THREADS "On or off" OFF)
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
+
+
 find_package(qb1t6 0 QUIET )
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
 	FetchContent_Declare(
@@ -60,7 +62,7 @@ if(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 endif(NOT qcurlp81_FOUND AND NOT TARGET qcurlp81)
 
 if (Qt6_FOUND)
-target_link_libraries(qpow PUBLIC  Qt6::Core )
+	target_link_libraries(qpow PUBLIC  Qt6::Core )
 endif(Qt6_FOUND)
 
 if(USE_THREADS)
