@@ -43,7 +43,7 @@ add_library(qpow include/pow/qpow.hpp qpow.cpp)
 
 if(BUILD_SHARED_LIBS)
 	target_compile_definitions(qpow PRIVATE QEXPORT_IMPORT=Q_DECL_EXPORT)
-	target_link_options(qpow PRIVATE -DQEXPORT_IMPORT=Q_DECL_IMPORT)
+	target_link_options(qpow BEFORE PRIVATE -DQEXPORT_IMPORT=Q_DECL_IMPORT)
 endif(BUILD_SHARED_LIBS)
 
 find_package(qb1t6 0 QUIET )
