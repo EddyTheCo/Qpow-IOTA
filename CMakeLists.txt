@@ -41,7 +41,7 @@ endif(Qt6_FOUND)
 option(USE_THREADS "On or off" OFF)
 message(STATUS "Use multithread: '${USE_THREADS}' ")
 add_library(qpow include/pow/qpow.hpp qpow.cpp)
-target_compile_definitions(qpow PRIVATE MYSHAREDLIB_LIBRARY)
+target_compile_definitions(qpow PRIVATE WINDOWS_SHAREDLIB)
 
 find_package(qb1t6 0 QUIET )
 if(NOT qb1t6_FOUND AND NOT TARGET qb1t6)
