@@ -10,12 +10,20 @@
 #include<thread>
 #include<mutex>
 #endif
+
+#include <QtCore/QtGlobal>
+
+#if defined(WINDOWS_SHAREDLIB)
+# define SHAREDLIB_EXPORT Q_DECL_EXPORT
+#else
+#define SHAREDLIB_EXPORT Q_DECL_IMPORT
+#endif
 namespace qiota{
 
 	namespace qpow {
 
 
-		class nonceFinder : public QObject
+		class SHAREDLIB_EXPORT nonceFinder : public QObject
 		{
 			Q_OBJECT
 			public:
