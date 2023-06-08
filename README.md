@@ -5,7 +5,7 @@ Implements a library to perform PoW following  this [TIP](https://github.com/iot
 
 ## API reference
 
-You can read the [API reference](https://eddytheco.github.io/Qpow-IOTA/) here, or generate it yourself like
+You can read the [API reference](https://eddytheco.github.io/Qpow-IOTA/), or generate it yourself like
 ```
 cmake -DBUILD_DOCS=ON ../
 cmake --build . --target doxygen_docs
