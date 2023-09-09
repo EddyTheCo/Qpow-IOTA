@@ -47,15 +47,15 @@ target_compile_definitions(qpow PRIVATE WINDOWS_QPOW)
 FetchContent_Declare(
 	qb1t6
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
-	GIT_TAG v0.0.1
-	FIND_PACKAGE_ARGS 0 CONFIG
+	GIT_TAG v0.0.2
+	FIND_PACKAGE_ARGS 0.0 CONFIG
 	)
 FetchContent_MakeAvailable(qb1t6)
 FetchContent_Declare(
 	qcurlp81
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
-	GIT_TAG v0.0.1
-	FIND_PACKAGE_ARGS 0 CONFIG
+	GIT_TAG v0.0.2
+	FIND_PACKAGE_ARGS 0.0 CONFIG
 	)
 FetchContent_MakeAvailable(qcurlp81)
 
@@ -85,8 +85,6 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/qpowConfig.cmake"
 	INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/qpow"
-	NO_SET_AND_CHECK_MACRO
-	NO_CHECK_REQUIRED_COMPONENTS_MACRO
 	)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/qpowConfigVersion.cmake"
