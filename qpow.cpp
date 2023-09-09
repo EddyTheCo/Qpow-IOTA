@@ -135,7 +135,6 @@ signals:
 		{
 			const quint64 shift=std::numeric_limits < quint64 >::max()/NThreads;
 			const quint8 target_zeros=ceil(log(1.0*(Message.size()+8)*Min_PoW_Score_)/LOG3);
-			qDebug()<<"target_zeros:"<<target_zeros;
 			const auto pow_digest=QCryptographicHash::hash(Message, QCryptographicHash::Blake2b_256);
 			const auto curl_in=get_Trits_from_Bytes(pow_digest);
 			auto worker = new WorkerThread(curl_in,target_zeros,shift,this);

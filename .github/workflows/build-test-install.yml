@@ -6,7 +6,6 @@ on:
     tags:
       - 'v*'
   pull_request:
-    types: [opened,reopened]
     branches: [develop]
 jobs:
   build_test_package:
@@ -23,6 +22,7 @@ jobs:
       os: ${{ matrix.os }}
       sharedLib: ${{ matrix.sharedLib }}
       useThread: ${{ matrix.useThread }}
+      qtVersion: '6.6.0'
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build_test_package
