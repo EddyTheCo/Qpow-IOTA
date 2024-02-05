@@ -12,10 +12,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest,macos-latest,windows-latest]
-        cmakeArgs: [' -USE_THREADS=ON -DBUILD_SHARED_LIBS=ON ',' -USE_THREADS=ON -DBUILD_SHARED_LIBS=OFF ',   
-          ' -USE_THREADS=OFF -DBUILD_SHARED_LIBS=ON ', ' -USE_THREADS=OFF -DBUILD_SHARED_LIBS=ON ' ]
+        cmakeArgs: [' -USE_THREADS=ON ', ' -USE_THREADS=OFF ' ]
 
-    uses: EddyTheCo/Common/.github/workflows/build-test-install.yml@develop
+    uses: EddyTheCo/Common/.github/workflows/build-test-install.yml@v0.1.2
     permissions:
       contents: write
     with:
