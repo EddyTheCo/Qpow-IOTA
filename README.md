@@ -1,4 +1,3 @@
-[TOC]
 
 # Proof-of-work as a means to rate-limit the network 
 
@@ -55,3 +54,5 @@ We appreciate any contribution!
 You can open an issue or request a feature.
 You can open a PR to the `develop` branch and the CI/CD will take care of the rest.
 Make sure to acknowledge your work, and ideas when contributing.
+
+[TOC]
