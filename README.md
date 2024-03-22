@@ -1,5 +1,7 @@
 
-# Proof-of-work as a means to rate-limit the network 
+# Proof-of-work as a means to rate-limit the network
+ 
+[TOC]
 
 This repo implements a library to perform Proof of Work (PoW) following this [TIP](https://github.com/iotaledger/tips/blob/main/tips/TIP-0012/tip-0012.md).
 
@@ -55,4 +57,3 @@ You can open an issue or request a feature.
 You can open a PR to the `develop` branch and the CI/CD will take care of the rest.
 Make sure to acknowledge your work, and ideas when contributing.
 
-[TOC]
