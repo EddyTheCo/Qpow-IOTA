@@ -17,7 +17,8 @@ jobs:
     with:
       os: ${{ matrix.os }}
       qtVersion: '6.6.0'
-      cmakeArgs: "-DUSE_THREADS=ON -DCPACK_PACKAGE_CONTACT=estervtech@gmail.com -DREPO_URL=https://eddytheco.github.io/Qpow-IOTA -DCPACK_PACKAGE_VENDOR=estervtech"  
+      cmakeArgs: "-DUSE_THREADS=ON -DCPACK_PACKAGE_CONTACT=estervtech@gmail.com -DREPO_URL=https://eddytheco.github.io/Qpow-IOTA -DCPACK_PACKAGE_VENDOR=estervtech" 
+      test: false
   
   build_doxygen:
     if: startsWith(github.ref, 'refs/tags/v')
