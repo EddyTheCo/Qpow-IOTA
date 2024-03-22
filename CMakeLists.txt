@@ -34,7 +34,7 @@ FetchContent_Declare(
 	GIT_TAG use_IFW
 	FIND_PACKAGE_ARGS 0.0 CONFIG
 	)
-FetchContent_MakeAvailable(Qb1t6)
+FetchContent_MakeAvailable(Qtb1t6)
 FetchContent_Declare(
 	Qtcurlp81
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
