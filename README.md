@@ -13,7 +13,7 @@ git clone https://github.com/EddyTheCo/Qpow-IOTA.git
 
 mkdir build
 cd build
-qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF ../Qpow-IOTA
+qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DUSE_THREADS=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF ../Qpow-IOTA
 
 cmake --build . 
 
@@ -21,7 +21,7 @@ cmake --install .
 ```
 where `installDir` is the installation path.
 One can choose to build or not the tests and the documentation with the `BUILD_TESTING` and `BUILD_DOCS` variables.
-
+The use or not of multithreading is set by the `USE_THREADS` variable.
 ### From GitHub releases
 Download the releases from this repo. 
 
