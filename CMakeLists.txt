@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
 	ccommon
 	GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-	GIT_TAG use_IFW
+	GIT_TAG v0.3.0
 	)
 FetchContent_MakeAvailable(ccommon)
 
@@ -31,15 +31,15 @@ message(STATUS "Use multithread: '${USE_THREADS}' ")
 FetchContent_Declare(
 	Qtb1t6
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
-	GIT_TAG use_IFW
-	FIND_PACKAGE_ARGS 0.0 CONFIG
+	GIT_TAG v0.1.0
+	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
 FetchContent_MakeAvailable(Qtb1t6)
 FetchContent_Declare(
 	Qtcurlp81
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
-	GIT_TAG use_IFW
-	FIND_PACKAGE_ARGS 0.0 CONFIG
+	GIT_TAG v0.1.0
+	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
 FetchContent_MakeAvailable(Qtcurlp81)
 
