@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
 	ccommon
 	GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-	GIT_TAG v0.1.2
+	GIT_TAG v0.3.0
 	)
 FetchContent_MakeAvailable(ccommon)
 
@@ -14,7 +14,7 @@ version_from_git(
 	TIMESTAMP "%Y%m%d%H%M%S"
 	)
 
-project(QtIotaPow VERSION ${VERSION} DESCRIPTION "QT library for doing Pow on IOTA" LANGUAGES CXX)
+project(QtIotaPow VERSION ${VERSION} DESCRIPTION "Methods for doing Pow on IOTA" LANGUAGES CXX)
 
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -29,19 +29,19 @@ message(STATUS "Use multithread: '${USE_THREADS}' ")
 
 
 FetchContent_Declare(
-	qb1t6
+	Qtb1t6
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
-	GIT_TAG v0.0.2
-	FIND_PACKAGE_ARGS 0.0 CONFIG
+	GIT_TAG v0.1.0
+	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
-FetchContent_MakeAvailable(qb1t6)
+FetchContent_MakeAvailable(Qtb1t6)
 FetchContent_Declare(
-	qcurlp81
+	Qtcurlp81
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
-	GIT_TAG v0.0.2
-	FIND_PACKAGE_ARGS 0.0 CONFIG
+	GIT_TAG v0.1.0
+	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
-FetchContent_MakeAvailable(qcurlp81)
+FetchContent_MakeAvailable(Qtcurlp81)
 
 find_package(Qt6 COMPONENTS Core)
 
@@ -49,6 +49,8 @@ if (Qt6_FOUND)
 	qt_standard_project_setup()
 	
 	add_library(qpow include/pow/qpow.hpp qpow.cpp)
+	add_library(${PROJECT_NAME}::qpow ALIAS qpow)
+	set_target_properties(qpow PROPERTIES VERSION ${VERSION} SOVERSION ${VERSION_MAJOR})
 	target_compile_definitions(qpow PRIVATE WINDOWS_QPOW)
 
 	target_link_libraries(qpow PUBLIC  Qt6::Core )
@@ -58,53 +60,29 @@ if (Qt6_FOUND)
 	endif(USE_THREADS)
 
 
-	target_link_libraries(qpow PRIVATE  qb1t6 qcurlp81 )
+	target_link_libraries(qpow PRIVATE  Qtb1t6::qb1t6 Qtcurlp81::qcurlp81 )
 
 	target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/qpow>")
+		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/Esterv/>")
 
-	install(TARGETS qpow EXPORT qpowTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
-	install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qpow)
+	install(TARGETS qpow 
+		EXPORT ${PROJECT_NAME}-config
+	      	DESTINATION ${CMAKE_INSTALL_LIBDIR}
+		COMPONENT pow
+		)
 
-	install(EXPORT qpowTargets
-		FILE qpowTargets.cmake
-		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qpow
+	install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ 
+		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Esterv
+		COMPONENT ${PROJECT_NAME}
 		)
-	include(CMakePackageConfigHelpers)
-	# generate the config file that is includes the exports
-	configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
-		"${CMAKE_CURRENT_BINARY_DIR}/qpowConfig.cmake"
-		INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/qpow"
-		)
-	write_basic_package_version_file(
-		"${CMAKE_CURRENT_BINARY_DIR}/qpowConfigVersion.cmake"
-		VERSION ${VERSION}
-		COMPATIBILITY SameMajorVersion
-		)
-	install(FILES
-		${CMAKE_CURRENT_BINARY_DIR}/qpowConfig.cmake
-		${CMAKE_CURRENT_BINARY_DIR}/qpowConfigVersion.cmake
-		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qpow
-		)
-	export(EXPORT qpowTargets
-		FILE "${CMAKE_CURRENT_BINARY_DIR}/qpowTargets.cmake"
-		)
+
+	build_exports()
 	if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-		set(CPACK_PACKAGE_CONTACT "estervtech")
-		include(CTest)
-		set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${SEMVER}-${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_CXX_COMPILER_ID}")
-		if(NOT BUILD_SHARED_LIBS)
-			set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-static")
-		endif(NOT BUILD_SHARED_LIBS)
-		if(USE_THREADS)
-			set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-MThread")
-		endif(USE_THREADS)
-		include(CPack)
+		build_cpack()
 	endif()
 
 endif(Qt6_FOUND)
 
 if(BUILD_DOCS)
-	get_target_property(build_docs cmake_build_docs SOURCES)
-	include(${build_docs})
+	build_docs()
 endif()
