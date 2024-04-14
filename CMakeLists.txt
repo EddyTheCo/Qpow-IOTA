@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
 	ccommon
 	GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-	GIT_TAG v0.3.0
+	GIT_TAG v0.3.1
 	)
 FetchContent_MakeAvailable(ccommon)
 
@@ -31,14 +31,14 @@ message(STATUS "Use multithread: '${USE_THREADS}' ")
 FetchContent_Declare(
 	Qtb1t6
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qb1t6.git
-	GIT_TAG v0.1.0
+	GIT_TAG develop
 	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
 FetchContent_MakeAvailable(Qtb1t6)
 FetchContent_Declare(
 	Qtcurlp81
 	GIT_REPOSITORY https://github.com/EddyTheCo/Qcurlp81.git
-	GIT_TAG v0.1.0
+	GIT_TAG develop
 	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
 FetchContent_MakeAvailable(Qtcurlp81)
@@ -47,7 +47,7 @@ find_package(Qt6 COMPONENTS Core)
 
 if (Qt6_FOUND)
 	qt_standard_project_setup()
-	
+
 	add_library(qpow include/pow/qpow.hpp qpow.cpp)
 	add_library(${PROJECT_NAME}::qpow ALIAS qpow)
 	set_target_properties(qpow PROPERTIES VERSION ${VERSION} SOVERSION ${VERSION_MAJOR})
@@ -65,13 +65,14 @@ if (Qt6_FOUND)
 	target_include_directories(qpow PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/Esterv/>")
 
-	install(TARGETS qpow 
+	install(TARGETS qpow
 		EXPORT ${PROJECT_NAME}-config
-	      	DESTINATION ${CMAKE_INSTALL_LIBDIR}
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		COMPONENT pow
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT pow
 		)
 
-	install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ 
+	install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
 		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Esterv
 		COMPONENT ${PROJECT_NAME}
 		)
@@ -79,10 +80,10 @@ if (Qt6_FOUND)
 	build_exports()
 	if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 		build_cpack()
-	endif()
+	endif(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
 endif(Qt6_FOUND)
 
 if(BUILD_DOCS)
 	build_docs()
-endif()
+endif(BUILD_DOCS)
